@@ -17,7 +17,7 @@
               </el-select>          
           </el-form-item>
           <el-form-item label="商品名称:">
-            <el-input v-model="searchBar.name" autocomplete placeholder="输入商品名称进行搜索"></el-input>
+            <el-input v-model="searchBar.name"  autocomplete placeholder="输入商品名称进行搜索"></el-input>
           </el-form-item>
            <el-form-item label="商品编码:">
             <el-input v-model="searchBar.num" :value="searchBar.num" @keyup.native=handleInput placeholder=" 请输入商品编码进行搜索"></el-input>

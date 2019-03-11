@@ -45,6 +45,7 @@ let vm = window.vm;
 $ajax.interceptors.response.use(
   response =>{
     console.log(response,333333)
+    console.log(response.data && response.data.code === '0001')
     if(response.data && response.data.code === '0001'){
       removeSessionItem('isLogin')
       removeItem('routes')

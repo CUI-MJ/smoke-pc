@@ -18,11 +18,13 @@ import {
 } from '@/api/function.js'
 import '@/api/vue-axios'
 import _ from 'lodash'
+
 Vue.prototype._ = _
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 
 Vue.config.productionTip = false
 Vue.use(ElementUI)
+
 
 
 Object.keys(filters).forEach(key => {

@@ -167,3 +167,12 @@ export function fileUpload(params){
         return Promise.reject(err)
     })
 }
+
+export function importStock(params){
+    let url = `/shops/import-stock`;
+    return ajax.post(url,params).then(function (res) {
+        return Promise.resolve(res)
+    }).catch(function (err) {
+        return Promise.reject(err)
+    })
+}
