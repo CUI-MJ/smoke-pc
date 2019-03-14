@@ -4,23 +4,27 @@
     <div ref="searchBar" class="operations-bar">
       <div class="right">
         <el-form :inline="true" :model="searchBar">
-            <el-form-item>
-              <el-select v-model="searchBar.firmId" placeholder="请选择厂商">
-                <el-option
-                  v-for="item in options"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                  @blur="getblur"
-                  >
-                </el-option>
-              </el-select>          
+          <el-form-item>
+            <el-select v-model="searchBar.firmId" placeholder="请选择厂商">
+              <el-option
+                v-for="item in options"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+                @blur="getblur"
+              ></el-option>
+            </el-select>
           </el-form-item>
           <el-form-item label="商品名称:">
-            <el-input v-model="searchBar.name"  autocomplete placeholder="输入商品名称进行搜索"></el-input>
+            <el-input v-model="searchBar.name" autocomplete placeholder="输入商品名称进行搜索"></el-input>
           </el-form-item>
-           <el-form-item label="商品编码:">
-            <el-input v-model="searchBar.num" :value="searchBar.num" @keyup.native=handleInput placeholder=" 请输入商品编码进行搜索"></el-input>
+          <el-form-item label="商品编码:">
+            <el-input
+              v-model="searchBar.num"
+              :value="searchBar.num"
+              @keyup.native="handleInput"
+              placeholder=" 请输入商品编码进行搜索"
+            ></el-input>
           </el-form-item>
           <el-form-item>
             <el-button class="button-sel" type="primary" @click="search">查询</el-button>
@@ -61,11 +65,7 @@
       </el-table-column>
     </el-table>
     <!-- 分页 -->
-    <page
-      :totalLength="total"
-      :number="pageSize"
-      v-on:listenToChildEvent="showMsgFromChild"
-    />
+    <page :totalLength="total" :number="pageSize" v-on:listenToChildEvent="showMsgFromChild"/>
     <!-- 添加园区 -->
     <el-dialog :title="modelTitle" :visible.sync="addVisible" width="26%" class="addfrom">
       <el-form :model="addFrom">
@@ -90,43 +90,42 @@
             <span>烟草厂商</span>
           </label>
           <el-select v-model="addFrom.firmId" placeholder="请选择厂商">
-                <el-option
-                  v-for="item in options"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                  @blur="getblur"
-                  >
-                </el-option>
-          </el-select>        
+            <el-option
+              v-for="item in options"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+              @blur="getblur"
+            ></el-option>
+          </el-select>
         </el-form-item>
-         <el-form-item>
+        <el-form-item>
           <label class="itemlable">
             <span class="red">*</span>
             <span>零售价</span>
           </label>
           <el-input v-model="addFrom.retailPrice" autocomplete="off" placeholder="请输入零售价"></el-input>
         </el-form-item>
-         <el-form-item>
+        <el-form-item>
           <label class="itemlable">
             <span class="red">*</span>
             <span>批发价</span>
           </label>
-         <el-input v-model="addFrom.tradePrice" autocomplete="off" placeholder="请输入批发价"></el-input>
+          <el-input v-model="addFrom.tradePrice" autocomplete="off" placeholder="请输入批发价"></el-input>
         </el-form-item>
-         <el-form-item>
+        <el-form-item>
           <label class="itemlable">
             <span class="red">*</span>
             <span>种类</span>
           </label>
-         <el-input v-model="addFrom.type" autocomplete="off" placeholder="请输入类型"></el-input>
+          <el-input v-model="addFrom.type" autocomplete="off" placeholder="请输入类型"></el-input>
         </el-form-item>
         <el-form-item>
           <label class="itemlable">
             <span class="red">*</span>
             <span>单位</span>
           </label>
-         <el-input v-model="addFrom.unit" autocomplete="off" disabled ></el-input>
+          <el-input v-model="addFrom.unit" autocomplete="off" disabled></el-input>
         </el-form-item>
         <el-form-item>
           <label class="itemlable">
@@ -139,13 +138,14 @@
             :on-preview="handlePreview"
             :on-remove="handleRemove"
             :before-remove="beforeRemove"
-            :on-success ="handlesuccess"
+            :on-success="handlesuccess"
             multiple
             :limit="1"
             :on-exceed="handleExceed"
-            :file-list="fileList">
+            :file-list="fileList"
+          >
             <el-button size="small" type="primary">点击上传</el-button>
-            <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>         
+            <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
           </el-upload>
         </el-form-item>
         <el-form-item>
@@ -168,8 +168,13 @@ import listPage from "@/mixins/listPage";
 import page from "@/components/Layout/page";
 import table from "@/mixins/table";
 import { mapMutations } from "vuex";
-import { firmList ,cigaretteList ,postCigarette , putCigarette} from '@/api/api'
-import { md5 , isPoneAvailable ,setCookie,checkNumber} from '@/api/function'
+import {
+  firmList,
+  cigaretteList,
+  postCigarette,
+  putCigarette
+} from "@/api/api";
+import { md5, isPoneAvailable, setCookie, checkNumber } from "@/api/function";
 export default {
   name: "Config",
   mixins: [listPage, table],
@@ -184,40 +189,39 @@ export default {
         password: "",
         passwordChecked: false
       },
-      fileList:[],
-      modelTitle:'新增用户',
+      fileList: [],
+      modelTitle: "新增用户",
       addVisible: false,
-      options:[],
+      options: [],
       addFrom: {
-          firmId: '',
-          name: "",
-          num:'',
-          retailPrice: '',
-          signPic: "",
-          tradePrice: '',
-          type:'',
-          unit: '条',
+        firmId: "",
+        name: "",
+        num: "",
+        retailPrice: "",
+        signPic: "",
+        tradePrice: "",
+        type: "",
+        unit: "条"
       },
       pageNum: 1,
       pageSize: 10,
       tableheight: 500,
-      entity:[],
-      total:0,
+      entity: [],
+      total: 0,
       isLoading: false,
       searchBar: {
         name: "",
-        num:'',
-        firmId:'',
+        num: "",
+        firmId: ""
       },
       multipleSelection: [],
-      isedit:false,
+      isedit: false
     };
   },
   mounted() {
     this.init();
   },
-  computed:{   
-  },
+  computed: {},
   methods: {
     init() {
       var _this = this;
@@ -228,97 +232,91 @@ export default {
     handleSelectionChange(val) {
       this.multipleSelection = val;
     },
-    handleInput(){
-      this.searchBar.num = this.searchBar.num.replace(/[^\.\d]/g,'');
+    handleInput() {
+      this.searchBar.num = this.searchBar.num.replace(/[^\.\d]/g, "");
     },
-    getseachobj(){
-      var _this  = this;
-      let parmas =  Object.assign({}, _this.searchBar);
-      if(parmas.name == ''){
-        delete parmas.name
+    getseachobj() {
+      var _this = this;
+      let parmas = Object.assign({}, _this.searchBar);
+      if (parmas.name == "") {
+        delete parmas.name;
       }
-      if(parmas.num == ''){
-        delete parmas.num
+      if (parmas.num == "") {
+        delete parmas.num;
       }
-      if(parmas.firmId == ''){
-        delete parmas.firmId
-      }else{
-        parmas.firmId = Number(parmas.firmId)
+      if (parmas.firmId == "") {
+        delete parmas.firmId;
+      } else {
+        parmas.firmId = Number(parmas.firmId);
       }
       return parmas;
     },
     //清除重置
     reset() {
       var _this = this;
-      _this.searchBar = { name: "", num: "" ,firmId:'',};
-      _this.getCigaretteList()
+      _this.searchBar = { name: "", num: "", firmId: "" };
+      _this.getCigaretteList();
     },
     //模糊查询
     search() {
       var _this = this;
       var parmas = _this.getseachobj();
-      _this.getCigaretteList(parmas,true)
-
+      _this.getCigaretteList(parmas, true);
     },
     //获取列表
-    getCigaretteList(data,flag) {
+    getCigaretteList(data, flag) {
       var _this = this;
       let obj = {
         pageNum: _this.pageNum ? _this.pageNum : "",
-        pageSize: _this.pageSize ? _this.pageSize : "",
+        pageSize: _this.pageSize ? _this.pageSize : ""
       };
-      if(flag === true){
-        obj.pageNum =1
+      if (flag === true) {
+        obj.pageNum = 1;
       }
-      let parmas = Object.assign(obj,data)
-      cigaretteList(parmas).then(res=>{
-        console.log(res)
-        if(res.code === '0000'){
-           var newList = res.data.list;
+      let parmas = Object.assign(obj, data);
+      cigaretteList(parmas)
+        .then(res => {
+          if (res.code === "0000") {
+            var newList = res.data.list;
             _this.entity = newList;
             _this.total = res.data.total;
-        }else{
-          this.$message({
+          } else {
+            this.$message({
               message: res.msg,
               type: "error"
-          });
-        }
-
-      }).catch(err=>{
-        this.$message({
-              message: '服务器发生错误，请稍后再试！',
-              type: "error"
-        });
-      })
+            });
+          }
+        })
+        .catch(err => {});
     },
     //获取厂商列表
-    getFirmList(){
+    getFirmList() {
       var _this = this;
-      firmList().then(res=>{
-        if(res.code === '0000'){
-           _this.options = res.data;
-        }else{
-          this.$message({
+      firmList()
+        .then(res => {
+          if (res.code === "0000") {
+            _this.options = res.data;
+          } else {
+            this.$message({
               message: res.msg,
               type: "error"
+            });
+          }
+        })
+        .catch(err => {
+          this.$message({
+            message: "服务器发生错误，请稍后再试！",
+            type: "error"
           });
-        }
-      }).catch(err=>{
-        this.$message({
-              message: '服务器发生错误，请稍后再试！',
-              type: "error"
         });
-      })
     },
 
-    getblur(event){
-      console.log(event,2222)
-    },
-    handleClose(){},
-    showMsgFromChild(currentPage, pageSize,isrefresh) {
+    getblur(event) {},
+    handleClose() {},
+    showMsgFromChild(currentPage, pageSize, isrefresh) {
       var _this = this;
-      if((_this.pageNum == currentPage) && (_this.pageSize == pageSize)){
-         return false;
+      if (_this.pageNum == currentPage && _this.pageSize == pageSize) {
+        return false;
       }
       _this.pageNum = currentPage;
       _this.pageSize = pageSize;
@@ -330,144 +328,144 @@ export default {
       var _this = this;
       _this.addFrom = {
         username: "",
-        isShops:false,
-        isAdmin:false,
+        isShops: false,
+        isAdmin: false,
         phoneNumber: "",
         password: "",
-        signPic:""
+        signPic: ""
       };
       _this.addVisible = false;
     },
-    addclick(){
+    addclick() {
       var _this = this;
       _this.fileList = [];
-      _this.modelTitle = '新增信息'
+      _this.modelTitle = "新增信息";
       _this.isedit = false;
       _this.addVisible = true;
       _this.addFrom = {
-          firmId: '',
-          name: "",
-          num:'',
-          retailPrice: '',
-          tradePrice: '',
-          type: '',
-          unit: '条',
-          signPic:''
+        firmId: "",
+        name: "",
+        num: "",
+        retailPrice: "",
+        tradePrice: "",
+        type: "",
+        unit: "条",
+        signPic: ""
       };
-     
     },
     //添加提交
     addsubmit(flag) {
       var _this = this;
       let parmas = _this.addFrom;
-      if(parmas.firmId == ''){
-        this.messageShow('请选择厂商','error',false)
+      if (parmas.firmId == "") {
+        this.messageShow("请选择厂商", "error", false);
         return false;
       }
-      if(parmas.name == ''){
-        this.messageShow('请输入商品名称','error',false)
+      if (parmas.name == "") {
+        this.messageShow("请输入商品名称", "error", false);
         return false;
       }
-      if(parmas.num == ''){
-        this.messageShow('请输入商品编码','error',false)
+      if (parmas.num == "") {
+        this.messageShow("请输入商品编码", "error", false);
         return false;
       }
-      if(parmas.retailPrice == ''){
-        this.messageShow('请输入零售价','error',false)
+      if (parmas.retailPrice == "") {
+        this.messageShow("请输入零售价", "error", false);
         return false;
       }
-      if(parmas.tradePrice == ''){
-        this.messageShow('请输入批发价','error',false)
+      if (parmas.tradePrice == "") {
+        this.messageShow("请输入批发价", "error", false);
         return false;
       }
-      if(parmas.type == ''){
-        this.messageShow('请输入类型','error',false)
+      if (parmas.type == "") {
+        this.messageShow("请输入类型", "error", false);
         return false;
       }
-      parmas.retailPrice = Number(parmas.retailPrice)
-      if(!checkNumber(parmas.firmId)){
-          _this.options.map(ele=>{
-            if(ele.label == parmas.firmId){
-              parmas.firmId = Number(ele.value)
-            }
-          })
-      }else{
-        parmas.firmId = Number(parmas.firmId)
+      parmas.retailPrice = Number(parmas.retailPrice);
+      if (!checkNumber(parmas.firmId)) {
+        _this.options.map(ele => {
+          if (ele.label == parmas.firmId) {
+            parmas.firmId = Number(ele.value);
+          }
+        });
+      } else {
+        parmas.firmId = Number(parmas.firmId);
       }
       _this.isLoading = true;
-      if(_this.isedit === true){
-        putCigarette(parmas).then(res=>{
-          console.log(res)
-          if(res.code === '0000'){         
+      if (_this.isedit === true) {
+        putCigarette(parmas)
+          .then(res => {
+            if (res.code === "0000") {
               this.$message({
                 message: res.msg,
                 type: "success"
               });
               _this.addCancle();
               _this.init();
-              _this.isLoading = false
-          }else{
+              _this.isLoading = false;
+            } else {
+              this.$message({
+                message: res.msg,
+                type: "error"
+              });
+            }
+          })
+          .catch(err => {
             this.$message({
-              message: res.msg,
+              message: "服务器发生错误，请稍后再试！",
               type: "error"
             });
-          }
-        }).catch(err=>{
-          this.$message({
-              message: '服务器发生错误，请稍后再试！',
-              type: "error"
           });
-        }) 
-
-      }else{
-        postCigarette(parmas).then(res=>{
-          if(res.code === '0000'){
+      } else {
+        postCigarette(parmas)
+          .then(res => {
+            if (res.code === "0000") {
               this.$message({
                 message: res.msg,
                 type: "success"
               });
               _this.addCancle();
               _this.init();
-              _this.isLoading = false
-          }else{
+              _this.isLoading = false;
+            } else {
+              this.$message({
+                message: res.msg,
+                type: "error"
+              });
+            }
+          })
+          .catch(err => {
             this.$message({
-              message: res.msg,
+              message: "服务器发生错误，请稍后再试！",
               type: "error"
             });
-          }
-        }).catch(err=>{
-          this.$message({
-              message: '服务器发生错误，请稍后再试！',
-              type: "error"
           });
-        }) 
       }
-
     },
     // 编辑
-    edit(data){
+    edit(data) {
       var _this = this;
-       _this.isedit = true;
-       _this.fileList = [];
-       _this.modelTitle = '编辑信息'
-       _this.addVisible = true;
-       var firmId = ''
-       _this.options.map(ele =>{
-         if(ele.value == data.firmId){
-           firmId =  ele.label;
-         }
-       })
-       _this.addFrom = {
-          firmId: firmId,
-          name: data.name,
-          num:data.num,
-          retailPrice: data.retailPrice,
-          tradePrice: data.tradePrice,
-          type: data.type,
-          unit: data.unit,
-          id:data.id,
-          signPic:data.signPic
-      }
+      _this.isedit = true;
+      _this.fileList = [];
+      _this.modelTitle = "编辑信息";
+      _this.addVisible = true;
+      var firmId = "";
+      _this.options.map(ele => {
+        if (ele.value == data.firmId) {
+          firmId = ele.label;
+        }
+      });
+      _this.addFrom = {
+        firmId: firmId,
+        name: data.name,
+        num: data.num,
+        retailPrice: data.retailPrice,
+        tradePrice: data.tradePrice,
+        type: data.type,
+        unit: data.unit,
+        id: data.id,
+        signPic: data.signPic
+      };
     },
     //消息提示封装
     messageShow(message, type, isfunc) {
@@ -484,20 +482,21 @@ export default {
     },
     //文件上传
     handleRemove(file, fileList) {
-      this.addFrom.signPic = ''
+      this.addFrom.signPic = "";
     },
-    handlePreview(file) {
-      console.log(file);
-    },
+    handlePreview(file) {},
     handleExceed(files, fileList) {
-      this.$message.warning(`当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
+      this.$message.warning(
+        `当前限制选择 1 个文件，本次选择了 ${
+          files.length
+        } 个文件，共选择了 ${files.length + fileList.length} 个文件`
+      );
     },
     beforeRemove(file, fileList) {
-      return this.$confirm(`确定移除 ${ file.name }？`);
+      return this.$confirm(`确定移除 ${file.name}？`);
     },
-    handlesuccess(response, file, fileList){
+    handlesuccess(response, file, fileList) {
       this.addFrom.signPic = response;
-      console.log(response, file, fileList)
     }
   }
 };
@@ -514,7 +513,7 @@ export default {
   margin-left: 0px;
 }
 .parkList {
-  margin-top:0px;
+  margin-top: 0px;
   padding: 20px 0px;
 }
 /* 激活 */
@@ -550,8 +549,8 @@ export default {
   margin-right: 2px;
 }
 .avatar {
-    width: 178px;
-    height: 178px;
-    display: block;
+  width: 178px;
+  height: 178px;
+  display: block;
 }
 </style>

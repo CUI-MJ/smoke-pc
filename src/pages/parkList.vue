@@ -95,7 +95,7 @@
          <el-form-item>
           <label class="itemlable">
             <span class="red">*</span>
-            <span>是否管理员</span>
+            <span>是否商铺用户</span>
           </label>
           <el-checkbox v-model="addFrom.isShops"></el-checkbox>
         </el-form-item>
@@ -163,7 +163,6 @@ export default {
     init() {
       var _this = this;
       var parmas = _this.getseachobj();
-      console.log(_this.searchBar)
       this.getQueryUserList(parmas);
     },
     ...mapMutations(["setTenantId","setParkName"]),
@@ -194,7 +193,6 @@ export default {
     //模糊查询
     search() {
       var _this = this;
-      console.log(_this.searchBar)
       var parmas = _this.getseachobj();
       _this.getQueryUserList(parmas,true)
 
@@ -211,7 +209,6 @@ export default {
       }
       let parmas = Object.assign(obj,data)
       queryUser(parmas).then(res=>{
-        console.log(res)
         if(res.code === '0000'){
            var newList = res.data.list;
            newList.map(element=>{
@@ -236,10 +233,6 @@ export default {
         }
 
       }).catch(err=>{
-        this.$message({
-              message: '服务器发生错误，请稍后再试！',
-              type: "error"
-        });
       })
     },
     handleClose(){},
@@ -318,9 +311,7 @@ export default {
       parmas.password = md5(parmas.password)
       _this.isLoading = true;
       if(_this.isedit === true){
-        console.log(2222222)
         putuser(parmas).then(res=>{
-          console.log(res)
           if(res.code === '0000'){         
               this.$message({
                 message: res.msg,
@@ -335,12 +326,7 @@ export default {
               type: "error"
             });
           }
-        }).catch(err=>{
-          this.$message({
-              message: '服务器发生错误，请稍后再试！',
-              type: "error"
-          });
-        }) 
+        }).catch(err=>{}) 
 
       }else{
         postuser(parmas).then(res=>{
@@ -358,18 +344,12 @@ export default {
               type: "error"
             });
           }
-        }).catch(err=>{
-          this.$message({
-              message: '服务器发生错误，请稍后再试！',
-              type: "error"
-          });
-        }) 
+        }).catch(err=>{}) 
       }
 
     },
     // 编辑
     edit(data){
-      console.log(data);
       var _this = this;
        _this.isedit = true;
        _this.modelTitle = '编辑用户'

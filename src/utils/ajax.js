@@ -1,11 +1,17 @@
 import axios from 'axios'
-import store from '@/store'
-import {Message} from 'element-ui';
-import Cookies from 'js-cookie'
-import {removeSessionItem,removeItem} from "@/api/function.js"
-console.log(process.env.NODE_ENV)
+import {
+  Loading,
+  Message,
+  MessageBox
+} from 'element-ui'
+import {
+  removeSessionItem,
+  removeItem,
+  delCookie
+} from "@/api/function.js"
+
 var baseURL = ''
-if(process.env.NODE_ENV == 'production'){
+if (process.env.NODE_ENV == 'production') {
   //axios 默认不让携带cookie 
   axios.defaults.withCredentials = true;
   baseURL = 'https://membert.chinajinmao.cn/cig'
@@ -16,51 +22,56 @@ const $ajax = axios.create({
   timeout: 5000
 })
 
-function objectToParams(obj) {
-  if (obj) {
-    let paramStr = ''
-    Object.keys(obj).forEach((item) => {
-      paramStr += '&' + item + '=' + obj[item]
-    })
-    return '?' + paramStr.slice(1)
-  } else {
-    return ''
-  }
-}
+var loadinginstace;
+
 // 拦截请求
 $ajax.interceptors.request.use(config => {
-  
-  console.log(config)
-  // if (config.method == 'get') {
-  //
-  // } else {
-  //
-  // }
+  loadinginstace = Loading.service({
+    fullscreen: true
+  })
   return config
 }, error => {
-  Promise.reject(error)
+  loadinginstace.close()
+  Message.error({
+    message: '加载超时'
+  })
+  return Promise.reject(error)
 })
-let vm = window.vm;
+
 // 统一错误处理
 $ajax.interceptors.response.use(
-  response =>{
-    console.log(response,333333)
-    console.log(response.data && response.data.code === '0001')
-    if(response.data && response.data.code === '0001'){
-      removeSessionItem('isLogin')
-      removeItem('routes')
-      vm.$cookie.delete('token');
-      window.location.replace('/#/login'); 
+  response => {
+    loadinginstace.close()
+    if (response.data && response.data.code === '0001') {
+      MessageBox.alert(response.data.msg,'登录超时',{
+        confirmButtonText: '跳转登录页',
+        type:'warning',
+        callback:()=>{
+          removeSessionItem('isLogin')
+          removeItem('routes')
+          delCookie('token')
+          window.location.replace(`${window.location.href}login`)
+        }
+      })
     }
-    return response.data
+    else if(response.data && response.data.code === '0000') {
+      return response.data
+    }
+    else{
+      Message.error({
+        message: response.data.msg
+      })
+    }
+
   },
   error => {
+    console.log('error')
     if (error.response && error.response.status == 401) {
       router.replace('/login')
     } else if (error.response && error.response.data && error.response.data.message) {
       Message.error(error.response.data.message);
     }
-    
+
     return Promise.reject(error)
   })
 

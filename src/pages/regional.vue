@@ -235,7 +235,6 @@ export default {
       }
       let parmas = Object.assign(obj,data)
       postShopList(parmas).then(res=>{
-        console.log(res)
         if(res.code === '0000'){
            var newList = res.data.list;
             _this.entity = newList;
@@ -248,14 +247,9 @@ export default {
         }
 
       }).catch(err=>{
-        this.$message({
-              message: '服务器发生错误，请稍后再试！',
-              type: "error"
-        });
       })
     },
     getblur(event){
-      console.log(event,2222)
     },
     handleClose(){},
     showMsgFromChild(currentPage, pageSize,isrefresh) {
@@ -325,7 +319,6 @@ export default {
       delete parmas.unit
       if(_this.isedit === true){
         putShops(parmas).then(res=>{
-          console.log(res)
           if(res.code === '0000'){         
               this.$message({
                 message: res.msg,
@@ -341,10 +334,7 @@ export default {
             });
           }
         }).catch(err=>{
-          this.$message({
-              message: '服务器发生错误，请稍后再试！',
-              type: "error"
-          });
+          
         }) 
 
       }else{
@@ -364,17 +354,13 @@ export default {
             });
           }
         }).catch(err=>{
-          this.$message({
-              message: '服务器发生错误，请稍后再试！',
-              type: "error"
-          });
+          
         }) 
       }
 
     },
     // 编辑
     edit(data){
-      console.log(data);
       var _this = this;
        _this.isedit = true;
        _this.modelTitle = '编辑信息'
@@ -419,12 +405,7 @@ export default {
           }
       }).catch(err=>{
         _this.ischeckUser = true;
-           _this.$message({
-              message: '服务器发生错误，请稍后再试！',
-              type: "error"
-          });
       })
-      console.log(_this.addFrom)
     },
     //消息提示封装
     messageShow(message, type, isfunc) {

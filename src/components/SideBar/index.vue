@@ -9,7 +9,7 @@
       text-color="#282828"
       active-text-color="#fff"
       mode="vertical"
-      :default-active="$route.path"
+      :default-active="currentPath"
       :collapse="collapsed"
       :unique-opened="true"
       >
@@ -52,18 +52,26 @@
 import { mapGetters,mapMutations} from 'vuex'
 import ScrollBar from '@/components/ScrollBar'
 import { faHome } from '@fortawesome/fontawesome-free-solid'
+import {getSessionItem} from '@/api/function'
 import _ from 'lodash'
 export default {
   components: { ScrollBar },
   props: ['collapsed'],
   data() {
     return {
+      currentPath:JSON.parse(getSessionItem('routes')).filter(ele=>ele.meta.isSelect)[0]['path'],
     }
   },
   created() {
   },
   watch:{
-
+    'currentPath':(val)=>{
+      this.currentPath = val;
+      console.log(this.currentPath)
+    }
+  },
+  computed: {
+   
   },
   methods: {
     handleOpen(key, keyPath) {

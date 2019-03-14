@@ -113,9 +113,7 @@
                 }
               },3000)
             }
-        }).catch(error=>{
-          _this.$message.error('服务器链接超时，请稍后再试！');
-        })
+        }).catch(error=>{})
       }
     }
   }

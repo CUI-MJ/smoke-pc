@@ -1,5 +1,5 @@
 import * as types from '../mutation-types'
-import {setCookie,setItem,setSessionItem} from "@/api/function.js"
+import {setSessionItem} from "@/api/function.js"
 export default {
     state: {
         routes:''
@@ -7,7 +7,7 @@ export default {
     mutations: {
         [types.setRouter](state, to) {
             state.routes = to
-            setItem('routes',to)
+            setSessionItem('routes',to)
         },
     },
     actions: {

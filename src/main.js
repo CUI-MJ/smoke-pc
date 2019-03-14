@@ -13,7 +13,6 @@ import {
   FontAwesomeIcon
 } from '@fortawesome/vue-fontawesome'
 import {
-  getItem,
   getSessionItem
 } from '@/api/function.js'
 import '@/api/vue-axios'
@@ -32,12 +31,14 @@ Object.keys(filters).forEach(key => {
 })
 // 全局路由守卫
 router.beforeEach((to, from, next) => {
-  console.log(to)
   const nextRoute = ['/','parkList','regional', 'device', 'record','permanentImport'];
   const isLogin = getSessionItem('isLogin') ? Boolean(getSessionItem('isLogin')) : false;
   if(to.name === 'login') {  //如果是登录页，则跳过验证
     next()  //必不可少
     return  //以下的代码不执行
+  }
+  if(to.name == 'permanentImport'){
+     console.log(JSON.parse(getSessionItem('routes')))
   }
   if (!to.matched || to.matched.length === 0) {
     store.commit('removeLogin')
@@ -48,8 +49,8 @@ router.beforeEach((to, from, next) => {
     return
   }
   if(nextRoute.indexOf(to.name) >= 0 && isLogin) {
-    if (getItem('routes')) {
-      store.commit('setRouter', JSON.parse(getItem('routes')))
+    if (getSessionItem('routes')) {
+      store.commit('setRouter', JSON.parse(getSessionItem('routes')))
     } else {
       store.commit('setRouter', curtail(router.options.routes))
     }

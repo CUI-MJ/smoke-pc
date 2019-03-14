@@ -127,7 +127,6 @@ export default {
     search() {
       var _this = this;
       var parmas = _this.getseachobj();
-      console.log(parmas)
       _this.getStocklogs(parmas,true)
 
     },
@@ -143,7 +142,6 @@ export default {
       }
       let parmas = Object.assign(obj,data)
       stocklog(parmas).then(res=>{
-        console.log(res)
         if(res.code === '0000'){
            var newList = res.data.list;
            newList.map(ele=>{
@@ -166,15 +164,9 @@ export default {
           });
         }
 
-      }).catch(err=>{
-        this.$message({
-              message: '服务器发生错误，请稍后再试！',
-              type: "error"
-        });
-      })
+      }).catch(err=>{})
     },
     getblur(event){
-      console.log(event,2222)
     },
     handleClose(){},
     showMsgFromChild(currentPage, pageSize,isrefresh) {
