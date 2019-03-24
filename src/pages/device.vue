@@ -57,7 +57,7 @@
       <el-table-column prop="num" label="商品编码"></el-table-column>
       <el-table-column prop="tradePrice" label="批发价"></el-table-column>
       <el-table-column prop="retailPrice" label="零售价"></el-table-column>
-      <el-table-column prop="type" label="类型"></el-table-column>
+      <el-table-column prop="type" label="价类"></el-table-column>
       <el-table-column label="操作">
         <template slot-scope="scope">
           <el-button type="text" class="but-f" @click="edit(scope.row)">修改</el-button>
@@ -113,12 +113,34 @@
           </label>
           <el-input v-model="addFrom.tradePrice" autocomplete="off" placeholder="请输入批发价"></el-input>
         </el-form-item>
+         <el-form-item>
+          <label class="itemlable">
+            <span class="red">*</span>
+            <span>条价</span>
+          </label>
+          <el-input v-model="addFrom.tradePrice" autocomplete="off" placeholder="请输入单条价格"></el-input>
+        </el-form-item>
+         <el-form-item>
+          <label class="itemlable">
+            <span class="red">*</span>
+            <span>盒价</span>
+          </label>
+          <el-input v-model="addFrom.tradePrice" autocomplete="off" placeholder="请输入单盒价格"></el-input>
+        </el-form-item>
         <el-form-item>
           <label class="itemlable">
             <span class="red">*</span>
-            <span>种类</span>
+            <span>价类</span>
           </label>
-          <el-input v-model="addFrom.type" autocomplete="off" placeholder="请输入类型"></el-input>
+           <el-select v-model="addFrom.type" placeholder="请选择价类">
+            <el-option
+              v-for="item in optionsTwo"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
+            </el-option>
+          </el-select>
+          <!-- <el-input v-model="addFrom.type" autocomplete="off" placeholder="请输入类型"></el-input> -->
         </el-form-item>
         <el-form-item>
           <label class="itemlable">
@@ -126,6 +148,18 @@
             <span>单位</span>
           </label>
           <el-input v-model="addFrom.unit" autocomplete="off" disabled></el-input>
+        </el-form-item>
+        <el-form-item>
+          <label class="itemlable">
+            <span>是否新品</span>
+          </label>
+          <el-checkbox v-model="addFrom.isNew"></el-checkbox>
+        </el-form-item>
+         <el-form-item>
+          <label class="itemlable">
+            <span>是否约价</span>
+          </label>
+          <el-checkbox v-model="addFrom.isAgreed"></el-checkbox>
         </el-form-item>
         <el-form-item>
           <label class="itemlable">
@@ -215,7 +249,27 @@ export default {
         firmId: ""
       },
       multipleSelection: [],
-      isedit: false
+      isedit: false,
+      optionsTwo: [{
+          value: '无价类',
+          label: '无价类'
+        }, {
+          value: '一类',
+          label: '一类'
+        }, {
+          value: '二类',
+          label: '二类'
+        }, {
+          value: '三类',
+          label: '三类'
+        }, {
+          value: '四类',
+          label: '四类'
+        }, {
+          value: '五类',
+          label: '五类'
+        }],
+        value: ''
     };
   },
   mounted() {
@@ -378,7 +432,7 @@ export default {
         return false;
       }
       if (parmas.type == "") {
-        this.messageShow("请输入类型", "error", false);
+        this.messageShow("请选择价类", "error", false);
         return false;
       }
       parmas.retailPrice = Number(parmas.retailPrice);

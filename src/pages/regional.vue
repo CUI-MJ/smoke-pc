@@ -51,6 +51,12 @@
       <el-table-column prop="company" label="所属公司"></el-table-column>
       <el-table-column prop="phone" label="联系电话"></el-table-column>
       <el-table-column prop="type" label="类型"></el-table-column>
+      <el-table-column label="客户档位">
+         <template slot-scope="scope">
+           <span>{{scope.row.grade}}</span>
+           <span v-if="scope.row.grade">档</span>
+        </template>
+      </el-table-column>
       <el-table-column prop="userId" label="绑定用户"></el-table-column>
       <el-table-column label="操作">
         <template slot-scope="scope">
@@ -90,12 +96,19 @@
           </label>
           <el-input v-model="addFrom.type" autocomplete="off" placeholder="请输入商铺类型"></el-input>
         </el-form-item>
-         <el-form-item>
+        <el-form-item>
           <label class="itemlable">
             <span class="red">*</span>
             <span>联系电话</span>
           </label>
          <el-input v-model="addFrom.phone" autocomplete="off" placeholder="请输入联系电话"></el-input>
+        </el-form-item>
+        <el-form-item>
+          <label class="itemlable">
+            <span class="red">*</span>
+            <span>客户档位</span>
+          </label>
+         <el-input v-model="addFrom.grade" autocomplete="off" type="number" placeholder="请输入商铺档位"></el-input>
         </el-form-item>
         <el-form-item>
           <label class="itemlable">
@@ -159,6 +172,7 @@ export default {
         company: "",
         name: "",
         phone: '',
+        grade:'',
         type: "",
         userId: '',
         unit:''
@@ -270,6 +284,7 @@ export default {
         company: "",
         name: "",
         phone: '',
+        grade:'',
         type: "",
         userId: '',
         unit:''
@@ -286,6 +301,7 @@ export default {
         company: "",
         name: "",
         phone: '',
+        grade:'',
         type: "",
         userId: '',
         unit:'',
@@ -303,19 +319,24 @@ export default {
         this.messageShow('请输入商铺地址','error',false)
         return false;
       }
+      if(parmas.type == ''){
+        this.messageShow('请输入商铺类型','error',false)
+        return false;
+      }
       if(parmas.phone == ''){
-        this.messageShow('请输入商铺电话','error',false)
+        this.messageShow('请输入商铺联系电话','error',false)
         return false;
       }
       if(!(isPoneAvailable(parmas.phone) || isTelAvailable(parmas.phone))){
         this.messageShow('请输入正确的电话格式','error',false)
         return false;
       }
-      if(parmas.type == ''){
-        this.messageShow('请输入类型','error',false)
+      if(parmas.grade == ''){
+        this.messageShow('请输入客户档位','error',false)
         return false;
       }
       _this.isLoading = true;
+      parmas.grade = Number(parmas.grade)
       delete parmas.unit
       if(_this.isedit === true){
         putShops(parmas).then(res=>{
@@ -370,6 +391,7 @@ export default {
         company: data.company,
         name: data.name,
         phone: data.phone,
+        grade:data.grade,
         type: data.type,
         userId: data.userId,
         id:data.id
