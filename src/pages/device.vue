@@ -55,8 +55,31 @@
       <el-table-column type="selection"></el-table-column>
       <el-table-column prop="name" label="商品名称"></el-table-column>
       <el-table-column prop="num" label="商品编码"></el-table-column>
+      <el-table-column label="是否新品">
+         <template slot-scope="scope">
+
+           <span v-if="!scope.row.isNew || scope.row.isNew == 0">
+              是
+           </span>
+           <span v-if="scope.row.isNew == 1">
+              否
+           </span>
+        </template>
+      </el-table-column>
+      <el-table-column label="是否约价">
+         <template slot-scope="scope">
+           <span v-if="!scope.row.isAgreed || scope.row.isAgreed == 0">
+              是
+           </span>
+           <span v-if="scope.row.isAgreed == 1">
+              否
+           </span>
+        </template>
+      </el-table-column>
       <el-table-column prop="tradePrice" label="批发价"></el-table-column>
       <el-table-column prop="retailPrice" label="零售价"></el-table-column>
+      <el-table-column prop="cartonPrice" label="条价"></el-table-column>
+      <el-table-column prop="boxPrice" label="盒价"></el-table-column>
       <el-table-column prop="type" label="价类"></el-table-column>
       <el-table-column label="操作">
         <template slot-scope="scope">
@@ -118,14 +141,14 @@
             <span class="red">*</span>
             <span>条价</span>
           </label>
-          <el-input v-model="addFrom.tradePrice" autocomplete="off" placeholder="请输入单条价格"></el-input>
+          <el-input v-model="addFrom.cartonPrice" autocomplete="off" placeholder="请输入单条价格"></el-input>
         </el-form-item>
          <el-form-item>
           <label class="itemlable">
             <span class="red">*</span>
             <span>盒价</span>
           </label>
-          <el-input v-model="addFrom.tradePrice" autocomplete="off" placeholder="请输入单盒价格"></el-input>
+          <el-input v-model="addFrom.boxPrice" autocomplete="off" placeholder="请输入单盒价格"></el-input>
         </el-form-item>
         <el-form-item>
           <label class="itemlable">
@@ -235,7 +258,11 @@ export default {
         signPic: "",
         tradePrice: "",
         type: "",
-        unit: "条"
+        unit: "条",
+        isNew:false,
+        isAgreed:false,
+        cartonPrice:'',
+        boxPrice:'',
       },
       pageNum: 1,
       pageSize: 10,
@@ -386,7 +413,11 @@ export default {
         isAdmin: false,
         phoneNumber: "",
         password: "",
-        signPic: ""
+        signPic: "",
+        isNew:false,
+        isAgreed:false,
+        cartonPrice:'',
+        boxPrice:'',
       };
       _this.addVisible = false;
     },
@@ -404,7 +435,11 @@ export default {
         tradePrice: "",
         type: "",
         unit: "条",
-        signPic: ""
+        signPic: "",
+        isNew:false,
+        isAgreed:false,
+        cartonPrice:'',
+        boxPrice:'',
       };
     },
     //添加提交
@@ -428,6 +463,14 @@ export default {
         return false;
       }
       if (parmas.tradePrice == "") {
+        this.messageShow("请输入批发价", "error", false);
+        return false;
+      }
+      if (parmas.cartonPrice == "") {
+        this.messageShow("请输入批发价", "error", false);
+        return false;
+      }
+       if (parmas.boxPrice == "") {
         this.messageShow("请输入批发价", "error", false);
         return false;
       }
@@ -518,7 +561,11 @@ export default {
         type: data.type,
         unit: data.unit,
         id: data.id,
-        signPic: data.signPic
+        signPic: data.signPic,
+        isNew:data.isNew == 1? true:false,
+        isAgreed:data.isAgreed == 1 ? true : false ,
+        cartonPrice:data.cartonPrice,
+        boxPrice:data.boxPrice,
       };
     },
     //消息提示封装
