@@ -31,7 +31,7 @@ Object.keys(filters).forEach(key => {
 })
 // 全局路由守卫
 router.beforeEach((to, from, next) => {
-  const nextRoute = ['/','parkList','regional', 'device', 'record','permanentImport'];
+  const nextRoute = ['/','parkList','regional', 'device', 'record','permanentImport','announcement'];
   const isLogin = getSessionItem('isLogin') ? Boolean(getSessionItem('isLogin')) : false;
   if(to.name === 'login') {  //如果是登录页，则跳过验证
     next()  //必不可少

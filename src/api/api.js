@@ -176,3 +176,31 @@ export function importStock(params){
         return Promise.reject(err)
     })
 }
+
+//获取公告列表
+export function noticeList(params){
+    let url = `/notice/list`;
+    return ajax.post(url,params).then(function (res) {
+        return Promise.resolve(res)
+    }).catch(function (err) {
+        return Promise.reject(err)
+    })
+}
+
+export function postNotice(params){
+    let url = `/notice`;
+    return ajax.post(url,params).then(function (res) {
+        return Promise.resolve(res)
+    }).catch(function (err) {
+        return Promise.reject(err)
+    })
+}
+
+export function putNotice(params){
+    let url = `/notice`;
+    return ajax.put(url,params).then(function (res) {
+        return Promise.resolve(res)
+    }).catch(function (err) {
+        return Promise.reject(err)
+    })
+}

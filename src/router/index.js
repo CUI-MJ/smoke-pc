@@ -13,6 +13,9 @@ const device = resolve => require.ensure([], () => resolve(require('@/pages/devi
 //人员管理
 const record = resolve => require.ensure([], () => resolve(require('@/pages/record')), 'record')
 
+//公告管理
+const announcement = resolve => require.ensure([], () => resolve(require('@/pages/announcement')), 'announcement')
+
 
 Vue.use(Router)
 export const routes = [
@@ -81,6 +84,18 @@ export const routes = [
     component: record,
     meta: {
       title: '库存管理',
+      icon: 'device',
+      isLogin: true,
+      isNav:true,
+      isSelect:false,
+    },
+  },
+  {
+    path: '/announcement',
+    name: 'announcement',
+    component: announcement,
+    meta: {
+      title: '公告管理',
       icon: 'device',
       isLogin: true,
       isNav:true,
