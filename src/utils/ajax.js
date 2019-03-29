@@ -48,7 +48,7 @@ $ajax.interceptors.response.use(
         type:'warning',
         callback:()=>{
           removeSessionItem('isLogin')
-          removeItem('routes')
+          removeSessionItem('routes')
           delCookie('token')
           window.location.replace(`${window.location.href}login`)
         }

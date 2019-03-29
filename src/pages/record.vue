@@ -2,7 +2,7 @@
   <div class="page-container parkList">
     <div class="title">库存管理</div>
     <div ref="searchBar" class="operations-bar">
-      <div class="left">
+      <div class="right">
         <el-form :inline="true" :model="searchBar">
           <!-- company -->
           <el-form-item label="商铺名称:">
@@ -41,6 +41,7 @@
       <el-table-column prop="name" label="烟草名称"></el-table-column>
       <el-table-column prop="operationType" label="操作类型"></el-table-column>
       <el-table-column prop="operationStock" label="操作数量"></el-table-column>
+      <el-table-column prop="operationUnit" label="操作单位"></el-table-column>
       <el-table-column prop="createDate" label="操作时间"></el-table-column>
       <el-table-column prop="remarks" label="备注"></el-table-column>
     </el-table>

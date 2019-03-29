@@ -1,5 +1,6 @@
 export const setRouter = 'setRouter'
 export const setLogin = 'setLogin'
+export const setType = 'setType'
 export const setTenantId = 'setTenantId'
 export const setParkName = 'setParkName'
 export const removeLogin = 'removeLogin'

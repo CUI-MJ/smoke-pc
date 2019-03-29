@@ -25,7 +25,7 @@
         </el-form>
       </div>
       <div class="left">
-        <el-button class="button-add" @click="addclick">
+        <el-button class="button-add" @click="addclick" v-if="getUserType !=2">
           <font-awesome-icon style="margin-right: 5px" :icon="['fas', 'plus-circle']" rotate="90"/>新增
         </el-button>
         <!-- <el-button class="button-rm" @click="multiRemove"><font-awesome-icon style="margin-right: 5px" :icon="['fas', 'trash-alt']" rotate="90" />批量删除</el-button> -->
@@ -53,7 +53,7 @@
           <span v-if="scope.row.status == 0">未发布</span>
         </template>
       </el-table-column>
-      <el-table-column label="操作">
+      <el-table-column label="操作" v-if="getUserType !=2">
         <template slot-scope="scope">
           <el-button
             v-if="scope.row.status == 1"
@@ -124,7 +124,7 @@
 import listPage from "@/mixins/listPage";
 import page from "@/components/Layout/page";
 import table from "@/mixins/table";
-import { mapMutations } from "vuex";
+import { mapMutations ,mapGetters } from "vuex";
 import { noticeList, postNotice, putNotice } from "@/api/api";
 import { md5, isPoneAvailable, setCookie, checkNumber } from "@/api/function";
 export default {
@@ -176,8 +176,13 @@ export default {
   },
   mounted() {
     this.init();
+    console.log(this.getUserType)
   },
-  computed: {},
+  computed: {
+     ...mapGetters([
+      'getUserType'
+     ])
+  },
   methods: {
     init() {
       var _this = this;
@@ -338,7 +343,17 @@ export default {
         id: data.id,
         status: flag
       };
-      this.$confirm("此操作将永久删除该文章, 是否继续?", "提示", {
+      var text = '';
+      if(flag == 0){
+        text = '确认撤回此文章?'
+      }
+      if(flag == 1){
+        text = '确认发布此文章?'
+      }
+      if(flag == 2){
+        text = '此操作将永久删除该文章, 是否继续?'
+      }
+      this.$confirm( text, "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning"

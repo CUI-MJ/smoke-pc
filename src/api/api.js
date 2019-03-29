@@ -204,3 +204,31 @@ export function putNotice(params){
         return Promise.reject(err)
     })
 }
+
+//导出所有
+export function allStatistics(){
+    let url = `/shops/export-all-statistics`;
+    return ajax.get(url,{}).then(function (res) {
+        return Promise.resolve(res)
+    }).catch(function (err) {
+        return Promise.reject(err)
+    })
+}
+
+export function exportInfoAcq(params){
+    let url = `/shops/export-info-acq/${params}`;
+    return ajax.get(url,{}).then(function (res) {
+        return Promise.resolve(res)
+    }).catch(function (err) {
+        return Promise.reject(err)
+    })
+}
+
+export function exportStatistics(params){
+    let url = `/shops/export-statistics/${params}`;
+    return ajax.get(url,{}).then(function (res) {
+        return Promise.resolve(res)
+    }).catch(function (err) {
+        return Promise.reject(err)
+    })
+}

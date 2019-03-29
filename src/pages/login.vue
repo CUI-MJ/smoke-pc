@@ -72,7 +72,7 @@
       }
     },
     methods: {
-      ...mapMutations(['setLogin']),
+      ...mapMutations(['setLogin','setType']),
       beforeLogin(){
         var _this = this;
         if(_this.loginForm.telphone == ''){
@@ -102,7 +102,13 @@
               });
               setCookie('token',res.data.tokenId)
               this.setLogin(true);
-              this.$router.push({path: '/'});
+              this.setType(res.data.type)
+              if(res.data.type == 2){
+                  this.$router.push({path: '/regional'});
+              }
+              else{
+                this.$router.push({path: '/'});
+              }
             }else{
               this.errorMessage = res.msg;
               setTimeout(()=>{

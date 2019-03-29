@@ -4,12 +4,6 @@
     <div ref="searchBar" class="operations-bar">
       <div class="right">
         <el-form :inline="true" :model="searchBar">           
-          <el-form-item label="管理员:">
-             <el-checkbox v-model="searchBar.isAdmin"></el-checkbox>
-          </el-form-item>
-          <el-form-item label="商铺用户:">
-             <el-checkbox v-model="searchBar.isShops"></el-checkbox>
-          </el-form-item>
           <el-form-item label="用户名:">
             <el-input v-model="searchBar.username" placeholder="输入用户名进行搜索"></el-input>
           </el-form-item>
@@ -45,8 +39,7 @@
       <el-table-column type="selection"></el-table-column>
       <el-table-column prop="username" label="用户名"></el-table-column>
       <el-table-column prop="phoneNumber" label="手机号"></el-table-column>
-      <el-table-column prop="isShops" label="商铺用户"></el-table-column>
-      <el-table-column prop="isAdmin" label="管理员"></el-table-column>
+      <el-table-column prop="type" label="用户类型"></el-table-column>
       <el-table-column prop="createDate" label="创新时间"></el-table-column>
       <el-table-column label="操作">
         <template slot-scope="scope">
@@ -85,19 +78,19 @@
           </label>
           <el-input type="password" v-model="addFrom.password" autocomplete="off" placeholder="请输入密码"></el-input>
         </el-form-item>
-         <el-form-item>
+        <el-form-item>
           <label class="itemlable">
             <span class="red">*</span>
-            <span>是否管理员</span>
+            <span>用户类型</span>
           </label>
-          <el-checkbox v-model="addFrom.isAdmin"></el-checkbox>
-        </el-form-item>
-         <el-form-item>
-          <label class="itemlable">
-            <span class="red">*</span>
-            <span>是否商铺用户</span>
-          </label>
-          <el-checkbox v-model="addFrom.isShops"></el-checkbox>
+           <el-select v-model="addFrom.type" placeholder="用户类型">
+            <el-option
+                v-for="item in options"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+              </el-option>
+           </el-select>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -133,8 +126,7 @@ export default {
       addVisible: false,
       addFrom: {
         username: "",
-        isShops:false,
-        isAdmin:false,
+        type:'',
         phoneNumber:'',
         password: ""
       },
@@ -147,13 +139,22 @@ export default {
       isLoading: false,
       searchBar: {
         username: "",
-        isShops:false,
-        isAdmin:false,
+        type:'',
         phoneNumber:''
-
       },
       multipleSelection: [],
       isedit:false,
+      //新增选择器
+      options: [{
+          value: '1',
+          label: '管理员'
+        }, {
+          value: '2',
+          label: '客户经理'
+        }, {
+          value: '3',
+          label: '商铺用户'
+        },],
     };
   },
   mounted() {
@@ -172,22 +173,12 @@ export default {
     getseachobj(){
       var _this  = this;
       let parmas =  Object.assign({}, _this.searchBar);
-      if(parmas.isShops){
-        parmas.isShops = 1
-      }else{
-        delete parmas.isShops
-      }
-      if(parmas.isAdmin){
-        parmas.isAdmin = 1
-      }else{
-        delete parmas.isAdmin
-      }
       return parmas;
     },
     //清除重置
     reset() {
       var _this = this;
-      _this.searchBar = { userName: "", phoneNumber: "" ,isShops:false,isAdmin:false};
+      _this.searchBar = { userName: "", phoneNumber: "" ,type:''};
       _this.getQueryUserList()
     },
     //模糊查询
@@ -211,18 +202,17 @@ export default {
       queryUser(parmas).then(res=>{
         if(res.code === '0000'){
            var newList = res.data.list;
-           newList.map(element=>{
-             if(element.isShops == 1){
-                element.isShops = '是'
-             }else{
-                element.isShops = '否'
-             }
-            if(element.isAdmin == 1){
-                element.isAdmin = '是'
-             }else{
-                element.isAdmin = '否'
-             }
-           })
+            newList.map(ele=>{
+               if(ele.type == 1){
+                 ele.type = '管理员'
+               }
+               if(ele.type == 2){
+                 ele.type = '客户经理'
+               }
+               if(ele.type == 3){
+                 ele.type = '商铺用户'
+               }
+            })
             _this.entity = newList;
             _this.total = res.data.total;
         }else{
@@ -258,8 +248,7 @@ export default {
       var _this = this;
       _this.addFrom = {
         username: "",
-        isShops:false,
-        isAdmin:false,
+        type:'',
         phoneNumber: "",
         password: ""
       };
@@ -272,8 +261,7 @@ export default {
       _this.addVisible = true;
       _this.addFrom = {
         username: "",
-        isShops:false,
-        isAdmin:false,
+        type:'',
         phoneNumber: "",
         password: ""
       };
@@ -298,16 +286,11 @@ export default {
         this.messageShow('请输入正确的手机号','error',false)
         return false;
       }
-      if(parmas.isShops){
-        parmas.isShops = 1
-      }else{
-        parmas.isShops = 0
+      if(parmas.type == ''){
+        this.messageShow('请选择用户类型','error',false)
+        return false;
       }
-      if(parmas.isAdmin){
-        parmas.isAdmin = 1
-      }else{
-        parmas.isAdmin = 0
-      }
+      
       parmas.password = md5(parmas.password)
       _this.isLoading = true;
       if(_this.isedit === true){
@@ -356,8 +339,7 @@ export default {
        _this.addVisible = true;
        _this.addFrom = {
         username: data.username,
-        isShops: data.isShops === '是' ? true:false,
-        isAdmin: data.isAdmin === '是' ? true:false,
+        type:data.type,
         phoneNumber: data.phoneNumber,
         password : data.password,
         id :data.id

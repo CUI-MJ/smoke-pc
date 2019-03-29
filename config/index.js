@@ -11,7 +11,7 @@ module.exports = {
     proxyTable: {
       '/': {
         // target: '47.94.245.164:9000',
-        target: 'http://47.94.245.164:9000/',
+        target: 'https://membert.chinajinmao.cn/cig/',
         changeOrigin: true,
       },        
     },

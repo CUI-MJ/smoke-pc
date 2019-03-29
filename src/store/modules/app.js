@@ -8,7 +8,7 @@ export default {
     userInfo:'',
     parkName:'',
     tenantId:getTenantId(),
-	  userInfo:''
+    userType:'',
   },
   mutations: {
     [types.setLogin](state,id) {
@@ -19,15 +19,16 @@ export default {
       state.isLogin = false
       removeSessionItem('isLogin')
       delCookie('token')
-      removeItem('routes')
+      removeSessionItem('routes')
+      removeSessionItem('userType')
     },
     [types.setTenantId](state,id) {
       state.tenantId = id
       setSessionItem('tenantId', id)
     },
-    [types.setParkName](state,id) {
-      state.parkName = id
-      setSessionItem('parkName', id)
+    [types.setType](state,id) {
+      state.userType = id
+      setSessionItem('userType', id)
     },
 	  SET_USERINFO:(state,data)=>{
       state.userInfo = data;

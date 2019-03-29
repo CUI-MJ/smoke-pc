@@ -29,9 +29,10 @@ Vue.use(ElementUI)
 Object.keys(filters).forEach(key => {
   Vue.filter(key, filters[key])
 })
+
 // 全局路由守卫
 router.beforeEach((to, from, next) => {
-  const nextRoute = ['/','parkList','regional', 'device', 'record','permanentImport','announcement'];
+  const nextRoute = ['/','parkList','regional','device','record','permanentImport','announcement'];
   const isLogin = getSessionItem('isLogin') ? Boolean(getSessionItem('isLogin')) : false;
   if(to.name === 'login') {  //如果是登录页，则跳过验证
     next()  //必不可少
@@ -65,6 +66,17 @@ router.beforeEach((to, from, next) => {
 export function curtail(arr) {
   var m = arr.slice(0);
   m.splice(0, 1);
+  if(getSessionItem('userType') == 2){
+    m.map(ele=>{
+      if(ele.name == 'parkList'){
+        ele.meta.isNav = false
+        ele.meta.isSelect = false
+      }
+      if(ele.name == 'regional'){
+        ele.meta.isSelect = true
+      }
+    })
+  }
   return m;
 }
 
