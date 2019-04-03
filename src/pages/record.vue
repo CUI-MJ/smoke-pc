@@ -8,7 +8,7 @@
           <el-form-item label="商铺名称:">
             <el-input v-model="searchBar.name" autocomplete placeholder="输入商铺名称进行搜索"></el-input>
           </el-form-item>
-           <el-form-item label="所属公司:">
+           <el-form-item label="查询日期:">
               <el-date-picker
                 v-model="searchBar.queryDate"
                 type="date"
