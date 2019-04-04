@@ -29,7 +29,7 @@
           <font-awesome-icon style="margin-right: 5px" :icon="['fas', 'download']" rotate="90"/>批量导入
         </el-button>
         <el-button class="button-sel" @click="batchUpload">
-          <font-awesome-icon style="margin-right: 5px" :icon="['fas', 'download']" rotate="90"/>批量导出
+          <font-awesome-icon style="margin-right: 5px" :icon="['fas', 'download']" rotate="90"/>批量导出商铺统计
         </el-button>
         <!-- <el-button class="button-rm" @click="multiRemove"><font-awesome-icon style="margin-right: 5px" :icon="['fas', 'trash-alt']" rotate="90" />批量删除</el-button> -->
       </div>
@@ -61,11 +61,12 @@
       </el-table-column>
       <el-table-column prop="userId" label="绑定用户"></el-table-column>
       <el-table-column prop="managerId" label="客户经理"></el-table-column>
-      <el-table-column label="操作" width="250px">
+      <el-table-column label="操作" width="400px">
         <template slot-scope="scope">
           <el-button type="text" class="but-f" @click="edit(scope.row)">修改</el-button>
           <el-button type="text" class="but-f" @click="shopExport(scope.row)">商铺统计导出</el-button>
           <el-button type="text" class="but-f" @click="informationExport(scope.row)">信息采集导出</el-button>
+          <el-button type="text" class="but-f" @click="CigaretteData(scope.row)">卷烟销量导出</el-button>
           <!-- <el-button type="text" class="but-f" @click="editnum(scope.row)">编辑库存</el-button> -->
         </template>
       </el-table-column>
@@ -169,6 +170,7 @@
 import listPage from "@/mixins/listPage";
 import page from "@/components/Layout/page";
 import table from "@/mixins/table";
+import { getCookie} from '@/api/function'
 import { mapMutations } from "vuex";
 import {
   postShopList,
@@ -524,13 +526,16 @@ export default {
       this.$router.push({ path: "/permanentImport" });
     },
     batchUpload() {
-      window.open(`https://membert.chinajinmao.cn/cig/shops/export-all-statistics`, '_blank');
+      window.open(`https://membert.chinajinmao.cn/cig/shops/export-all-statistics/${getCookie('token')}`, '_blank');
     },
     shopExport(value) {
-      window.open(`https://membert.chinajinmao.cn/cig/shops/export-statistics/${value.id}`, '_blank');
+      window.open(`https://membert.chinajinmao.cn/cig/shops/export-statistics/${value.id}/${getCookie('token')}`, '_blank');
     },
     informationExport(value) {
-      window.open(`https://membert.chinajinmao.cn/cig/shops/export-info-acq/${value.id}`, '_blank');
+      window.open(`https://membert.chinajinmao.cn/cig/shops/export-info-acq/${value.id}/${getCookie('token')}`, '_blank');
+    },
+    CigaretteData(value){
+      window.open(`https://membert.chinajinmao.cn/cig/shops/export-cigarette-sale/${value.id}/${getCookie('token')}`, '_blank');
     }
   }
 };
