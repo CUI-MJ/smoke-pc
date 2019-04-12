@@ -20,7 +20,7 @@
       </div>
       <div class="footer">
         <el-button class="login-btn" @click.prevent="beforeLogin">
-          登录
+          {{$t('login.text.login')}}
         </el-button>
       </div>
     </div>

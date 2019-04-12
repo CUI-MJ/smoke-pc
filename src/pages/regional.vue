@@ -170,7 +170,7 @@
 import listPage from "@/mixins/listPage";
 import page from "@/components/Layout/page";
 import table from "@/mixins/table";
-import { getCookie} from '@/api/function'
+import { getCookie } from "@/api/function";
 import { mapMutations } from "vuex";
 import {
   postShopList,
@@ -526,16 +526,36 @@ export default {
       this.$router.push({ path: "/permanentImport" });
     },
     batchUpload() {
-      window.open(`https://membert.chinajinmao.cn/cig/shops/export-all-statistics/${getCookie('token')}`, '_blank');
+      window.open(
+        `https://membert.chinajinmao.cn/cig/shops/export-all-statistics/${getCookie(
+          "token"
+        )}`,
+        "_blank"
+      );
     },
     shopExport(value) {
-      window.open(`https://membert.chinajinmao.cn/cig/shops/export-statistics/${value.id}/${getCookie('token')}`, '_blank');
+      window.open(
+        `https://membert.chinajinmao.cn/cig/shops/export-statistics/${
+          value.id
+        }/${getCookie("token")}`,
+        "_blank"
+      );
     },
     informationExport(value) {
-      window.open(`https://membert.chinajinmao.cn/cig/shops/export-info-acq/${value.id}/${getCookie('token')}`, '_blank');
+      window.open(
+        `https://membert.chinajinmao.cn/cig/shops/export-info-acq/${
+          value.id
+        }/${getCookie("token")}`,
+        "_blank"
+      );
     },
-    CigaretteData(value){
-      window.open(`https://membert.chinajinmao.cn/cig/shops/export-cigarette-sale/${value.id}/${getCookie('token')}`, '_blank');
+    CigaretteData(value) {
+      window.open(
+        `https://membert.chinajinmao.cn/cig/shops/export-cigarette-sale/${
+          value.id
+        }/${getCookie("token")}`,
+        "_blank"
+      );
     }
   }
 };

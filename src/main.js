@@ -17,12 +17,15 @@ import {
 } from '@/api/function.js'
 import '@/api/vue-axios'
 import _ from 'lodash'
+import i18n from '@/i18n'
+
 
 Vue.prototype._ = _
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 
 Vue.config.productionTip = false
 Vue.use(ElementUI)
+
 
 
 
@@ -85,6 +88,7 @@ new Vue({
   el: '#app',
   router,
   store,
+  i18n,
   components: {
     App
   },
